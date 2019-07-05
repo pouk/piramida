@@ -1,7 +1,14 @@
 module.exports = {
   Query: {
-    agents (_, args, ctx) {
-      return ctx.agents
+    brokers (_, args, ctx) {
+      return ctx.brokers
+    }
+  },
+  Broker: {
+    __resolveType (obj) {
+      return (obj.level === void 0)
+        ? 'Superagent'
+        : 'Agent'
     }
   }
 }

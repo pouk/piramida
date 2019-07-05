@@ -1,12 +1,22 @@
 const { gql } = require('apollo-server')
 
 const typeDefs = gql`
-  type Query {
-    agents: [Agent]
+  interface Broker {
+    id: ID!
   }
 
-  type Agent {
+  type Superagent implements Broker {
     id: ID!
+  }
+
+  type Agent implements Broker {
+    id: ID!
+    level: Int!
+    brokerId: ID!
+  }
+
+  type Query {
+    brokers: [Broker!]!
   }
 `
 

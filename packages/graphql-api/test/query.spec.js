@@ -8,8 +8,15 @@ import createServer from '..'
 //
 
 const MOCKS = {
-  agents: [
-    { id: 'zero' }
+  brokers: [
+    {
+      id: 'root'
+    },
+    {
+      id: 'node1-1',
+      level: 0,
+      brokerId: 'root'
+    }
   ]
 }
 
@@ -17,8 +24,12 @@ const MOCKS = {
 
 const QUERY_AGENTS = gql`
   query {
-    agents {
+    brokers {
       id
+      ... on Agent {
+        level
+        brokerId
+      }
     }
   }
 `
@@ -37,11 +48,11 @@ test.beforeEach(async t => {
 
 // tests
 
-test('agents', async t => {
+test('brokers', async t => {
   const { query } = t.context.client
 
-  const checkResponse = ({ data }) => {
-    t.deepEqual(data.agents, MOCKS.agents)
+  const checkResponse = (res) => {
+    t.deepEqual(res.data.brokers, MOCKS.brokers)
   }
 
   await query({ query: QUERY_AGENTS })
