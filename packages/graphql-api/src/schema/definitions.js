@@ -1,6 +1,18 @@
 const { gql } = require('apollo-server')
 
 const typeDefs = gql`
+  type Mutation {
+    createAgent(input: CreateAgentInput!): CreateAgentPayload
+  }
+
+  input CreateAgentInput {
+    brokerId: ID!
+  }
+
+  type CreateAgentPayload {
+    agent: Agent!
+  }
+
   interface Broker {
     id: ID!
   }
