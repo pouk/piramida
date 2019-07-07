@@ -6,12 +6,13 @@ module.exports = {
   },
   Mutation: {
     createAgent (_, args, ctx) {
-      const { brokerId } = args.input
+      const { name, brokerId } = args.input
 
       // build agent model
       const agent = {
         id: `agent-${Date.now()}`,
         level: 1,
+        name,
         brokerId
       }
 

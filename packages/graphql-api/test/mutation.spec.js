@@ -10,10 +10,12 @@ import createServer from '..'
 const MOCKS = {
   brokers: [
     {
-      id: 'root'
+      id: 'root',
+      name: 'Admin'
     },
     {
       id: 'node1-1',
+      name: 'Agent #1',
       level: 0,
       brokerId: 'root'
     }
@@ -27,6 +29,7 @@ const MUTATION_CREATE_AGENT = gql`
     createAgent (input: $input) {
       agent {
         id
+        name
         level
         brokerId
       }
@@ -52,6 +55,7 @@ test('createAgent', async t => {
   const { mutate } = t.context.client
 
   const input = {
+    name: 'Agent #2',
     brokerId: 'root'
   }
 

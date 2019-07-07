@@ -6,6 +6,7 @@ const typeDefs = gql`
   }
 
   input CreateAgentInput {
+    name: String!
     brokerId: ID!
   }
 
@@ -15,14 +16,17 @@ const typeDefs = gql`
 
   interface Broker {
     id: ID!
+    name: String!
   }
 
   type Superagent implements Broker {
     id: ID!
+    name: String!
   }
 
   type Agent implements Broker {
     id: ID!
+    name: String!
     level: Int!
     brokerId: ID!
   }
