@@ -7,20 +7,7 @@ import createServer from '..'
 
 //
 
-const MOCKS = {
-  brokers: [
-    {
-      id: 'root',
-      name: 'Admin'
-    },
-    {
-      id: 'node1-1',
-      name: 'Agent #1',
-      level: 0,
-      brokerId: 'root'
-    }
-  ]
-}
+const MOCKS = require('./mocks.json')
 
 //
 
