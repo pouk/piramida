@@ -2,6 +2,10 @@ module.exports = {
   Query: {
     brokers (_, args, ctx) {
       return ctx.brokers
+    },
+    broker (_, args, ctx) {
+      return ctx.brokers
+        .find(broker => broker.id === args.id)
     }
   },
   Mutation: {

@@ -33,6 +33,7 @@ const typeDefs = gql`
 
   type Query {
     brokers: [Broker!]!
+    broker(id: ID!): Broker
   }
 `
 

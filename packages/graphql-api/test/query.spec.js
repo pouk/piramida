@@ -24,6 +24,19 @@ const QUERY_AGENTS = gql`
   }
 `
 
+const QUERY_BROKER = gql`
+  query ($id: ID!) {
+    broker (id: $id) {
+      id
+      name
+      ... on Agent {
+        level
+        brokerId
+      }
+    }
+  }
+`
+
 // hooks
 
 test.beforeEach(async t => {
@@ -46,5 +59,20 @@ test('brokers', async t => {
   }
 
   await query({ query: QUERY_AGENTS })
+    .then(checkResponse)
+})
+
+test('broker', async t => {
+  const { client } = t.context
+
+  const checkResponse = (res) => {
+    t.deepEqual(res.data.broker, MOCKS.brokers[0])
+  }
+
+  await client
+    .query({
+      query: QUERY_BROKER,
+      variables: { id: 'root' }
+    })
     .then(checkResponse)
 })
