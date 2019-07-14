@@ -1,0 +1,14 @@
+{
+  "brokers": [
+    {
+      "id": "root",
+      "name": "Superagent"
+    },
+    {
+      "id": "node-1",
+      "name": "Agent #1",
+      "level": 1,
+      "brokerId": "root"
+    }
+  ]
+}
