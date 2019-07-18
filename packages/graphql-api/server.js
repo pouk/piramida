@@ -1,6 +1,8 @@
 const createServer = require('.')
 
-const server = createServer()
+const server = createServer({
+  brokers: []
+})
 
 server
   .listen()
