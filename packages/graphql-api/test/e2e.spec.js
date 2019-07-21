@@ -43,53 +43,6 @@ const requestQuery = (url, query) => {
     .then(r => r.json())
 }
 
-// tests
-
-test('koa - embedded', async t => {
-  const app = new Koa()
-  debug('created Koa app')
-
-  app.context.brokers = BROKERS
-
-  const server = new ApolloServer({
-    schema,
-    context: ({ ctx }) => ctx
-  })
-  server.applyMiddleware({ app })
-
-  const port = await getPort()
-  debug('reserved port: %d', port)
-
-  await runServer(app, port)
-
-  const baseUrl = `http://localhost:${port}`
-  debug('koa app runnin on %s', baseUrl)
-
-  const graphqlUrl = `${baseUrl}/graphql`
-  debug('graphql api available at %s', graphqlUrl)
-
-  // client setup
-
-  const query = `
-    query ListBrokers {
-      brokers {
-        id
-        name
-      }
-    }
-  `
-
-  //
-
-  const { data } = await requestQuery(graphqlUrl, query)
-
-  const expected = {
-    brokers: BROKERS
-  }
-
-  t.deepEqual(data, expected)
-})
-
 test('koa - imported', async t => {
   const app = createApp({ brokers: BROKERS })
 
