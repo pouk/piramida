@@ -1,9 +1,9 @@
 import test from 'ava'
 
-import { gql } from 'apollo-server'
+import { ApolloServer, gql } from 'apollo-server'
 import { createTestClient } from 'apollo-server-testing'
 
-import createServer from '..'
+import { schema } from '..'
 
 //
 
@@ -40,7 +40,10 @@ const QUERY_BROKER = gql`
 // hooks
 
 test.beforeEach(async t => {
-  const server = createServer(MOCKS)
+  const server = new ApolloServer({
+    schema,
+    context: MOCKS
+  })
   const client = createTestClient(server)
 
   t.context = {
