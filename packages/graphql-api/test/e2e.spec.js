@@ -29,6 +29,20 @@ const runServer = (app, port) => {
   return new Promise(listener)
 }
 
+const requestQuery = (url, query) => {
+  const params = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({ query })
+  }
+
+  return fetch(url, params)
+    .then(r => r.json())
+}
+
 // tests
 
 test('koa - embedded', async t => {
@@ -66,17 +80,8 @@ test('koa - embedded', async t => {
   `
 
   //
-  const params = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify({ query })
-  }
 
-  const { data } = await fetch(graphqlUrl, params)
-    .then(r => r.json())
+  const { data } = await requestQuery(graphqlUrl, query)
 
   const expected = {
     brokers: BROKERS
@@ -85,3 +90,32 @@ test('koa - embedded', async t => {
   t.deepEqual(data, expected)
 })
 
+test.failing('koa - imported', async t => {
+  const app = createApp({ brokers: BROKERS })
+
+  const port = await getPort()
+  debug('reserved port: %d', port)
+
+  await runServer(app, port)
+
+  const baseUrl = `http://localhost:${port}`
+  debug('koa app runnin on %s', baseUrl)
+
+  const graphqlUrl = `${baseUrl}/graphql`
+  debug('graphql api available at %s', graphqlUrl)
+
+  // client setup
+
+  const query = `
+    query ListBrokers {
+      brokers {
+        id
+        name
+      }
+    }
+  `
+
+  const { data } = await requestQuery(graphqlUrl, query)
+
+  t.deepEqual(data, { brokers: BROKERS })
+})
