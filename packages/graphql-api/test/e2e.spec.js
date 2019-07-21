@@ -90,7 +90,7 @@ test('koa - embedded', async t => {
   t.deepEqual(data, expected)
 })
 
-test.failing('koa - imported', async t => {
+test('koa - imported', async t => {
   const app = createApp({ brokers: BROKERS })
 
   const port = await getPort()
