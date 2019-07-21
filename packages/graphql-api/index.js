@@ -1,9 +1,2 @@
-const { ApolloServer } = require('apollo-server')
-
-const schema = require('./src/schema')
-
-// expose factory
-
-module.exports = context =>
-  new ApolloServer({ schema, context })
-
+module.exports.schema = require('./src/schema')
+module.exports.createApp = require('./src/app')
